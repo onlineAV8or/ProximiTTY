@@ -1,0 +1,32 @@
+# Gradle
+.gradle/
+build/
+out/
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Local config (machine-specific paths)
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Generated
+*.apk
+*.aab
+*.dex
+*.class
+
+# Logs / OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Keystore (never commit signing keys)
+*.jks
+*.keystore
+keystore.properties
