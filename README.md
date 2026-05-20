@@ -85,6 +85,15 @@ Nearby Connections needs ALL of these (and the device-wide Location toggle ON):
 - `NEARBY_WIFI_DEVICES` (API 33+)
 - `ACCESS_WIFI_STATE`, `CHANGE_WIFI_STATE`
 
-## License
+## License & Trademark
 
-MIT
+The **code** in this repository is licensed under the MIT License —
+fork it, modify it, ship derivative works.
+
+The name **"ProximiTTY"**, the ProximiTTY wordmark, and the app icon
+are unregistered trademarks of onlineAV8or. Derivative works MUST
+be released under a different name and may not use the ProximiTTY
+name, icon, or branding in a way that implies endorsement.
+
+
+
