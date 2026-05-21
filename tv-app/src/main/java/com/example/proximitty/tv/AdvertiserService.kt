@@ -1,12 +1,13 @@
-package com.example.proximity.tv
+package com.example.proximitty.tv
 
 import android.app.*
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.example.proximity.shared.*
+import com.example.proximitty.shared.*
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlinx.coroutines.*
@@ -15,6 +16,9 @@ class AdvertiserService : Service() {
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val connectedEndpoints = mutableSetOf<String>()
+
+    /** Tracks in-flight FILE payloads by their ID until transfer completes. */
+    private val incomingFiles = mutableMapOf<Long, Payload>()
 
     private val lifecycleCallback = object : ConnectionLifecycleCallback() {
         override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
@@ -38,12 +42,21 @@ class AdvertiserService : Service() {
 
     private val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
+            // FILE payloads (photos) arrive in chunks. Stash the Payload now;
+            // the actual file isn't ready until onPayloadTransferUpdate SUCCESS.
+            if (payload.type == Payload.Type.FILE) {
+                incomingFiles[payload.id] = payload
+                return
+            }
+
+            // BYTES payloads (Ping, RenderUi, etc.)
             val bytes = payload.asBytes() ?: return
             when (val msg = bytes.decodePayload()) {
                 is ProximityPayload.Ping -> handlePing(endpointId, msg)
                 is ProximityPayload.RenderUi -> {
                     if (msg.root.type.equals("clear", ignoreCase = true)) {
                         TvState.remoteUi.value = null
+                        TvState.currentImage.value = null   // clear also dismisses photos
                     } else {
                         TvState.remoteUi.value = msg.root
                     }
@@ -52,7 +65,34 @@ class AdvertiserService : Service() {
             }
         }
 
-        override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {}
+        override fun onPayloadTransferUpdate(endpointId: String, update: PayloadTransferUpdate) {
+            when (update.status) {
+                PayloadTransferUpdate.Status.IN_PROGRESS -> {
+                    Log.d(TAG, "transfer ${update.payloadId}: ${update.bytesTransferred}/${update.totalBytes}")
+                }
+                PayloadTransferUpdate.Status.SUCCESS -> {
+                    val payload = incomingFiles.remove(update.payloadId) ?: return
+                    if (payload.type == Payload.Type.FILE) {
+                        val file = payload.asFile()
+                        // asUri() works on every Android version — asJavaFile() returns
+                        // null on Android 10+ due to scoped storage.
+                        val uri = file?.asUri()
+                        Log.d(TAG, "FILE complete id=${update.payloadId} uri=$uri size=${file?.size}")
+                        if (uri != null) {
+                            TvState.remoteUi.value = null
+                            TvState.currentImage.value = uri
+                        } else {
+                            Log.w(TAG, "File received but URI was null (id=${update.payloadId})")
+                        }
+                    }
+                }
+                PayloadTransferUpdate.Status.FAILURE,
+                PayloadTransferUpdate.Status.CANCELED -> {
+                    Log.w(TAG, "transfer ${update.payloadId} failed/cancelled (status=${update.status})")
+                    incomingFiles.remove(update.payloadId)
+                }
+            }
+        }
     }
 
     override fun onCreate() {
@@ -123,5 +163,6 @@ class AdvertiserService : Service() {
 
     companion object {
         private const val NOTIFICATION_ID = 1
+        private const val TAG = "ProximiTTY/TV"
     }
 }

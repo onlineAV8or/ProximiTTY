@@ -30,3 +30,6 @@ Thumbs.db
 *.jks
 *.keystore
 keystore.properties
+
+# Personal / local-only files
+extra/

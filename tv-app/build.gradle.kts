@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.proximity.tv"
+    namespace = "com.example.proximitty.tv"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.proximity.tv"
+        applicationId = "com.example.proximitty.tv"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -39,5 +39,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.leanback)
+    implementation(libs.coil.compose)
     debugImplementation(libs.compose.ui.tooling)
 }

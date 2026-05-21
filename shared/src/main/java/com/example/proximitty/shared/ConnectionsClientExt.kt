@@ -1,4 +1,4 @@
-package com.example.proximity.shared
+package com.example.proximitty.shared
 
 import com.google.android.gms.nearby.connection.*
 import kotlinx.coroutines.suspendCancellableCoroutine

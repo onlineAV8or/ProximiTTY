@@ -1,10 +1,11 @@
-package com.example.proximity.phone
+package com.example.proximitty.phone
 
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.proximity.shared.*
+import com.example.proximitty.shared.*
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlinx.coroutines.flow.*
@@ -156,6 +157,17 @@ class DiscoveryViewModel : ViewModel() {
     }
 
     fun clearTvUi(): String? = sendUi(UiNode(type = "clear"))
+
+    /** Send a photo (or any image URI from the gallery picker) to the TV. */
+    fun sendImage(context: Context, uri: Uri): String? {
+        val id = connectedEndpointId ?: return "Not connected"
+        return runCatching {
+            val pfd = context.contentResolver.openFileDescriptor(uri, "r")
+                ?: return "Could not open image"
+            val payload = Payload.fromFile(pfd)
+            client?.sendPayload(id, payload)
+        }.fold(onSuccess = { null }, onFailure = { it.message ?: "Image send failed" })
+    }
 
     private fun sendHello() {
         val id = connectedEndpointId ?: return

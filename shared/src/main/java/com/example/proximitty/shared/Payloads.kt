@@ -1,4 +1,4 @@
-package com.example.proximity.shared
+package com.example.proximitty.shared
 
 import com.google.gson.Gson
 

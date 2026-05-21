@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.proximity.phone"
+    namespace = "com.example.proximitty.phone"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.proximity.phone"
+        applicationId = "com.example.proximitty.phone"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

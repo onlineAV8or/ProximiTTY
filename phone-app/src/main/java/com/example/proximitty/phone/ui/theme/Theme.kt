@@ -1,4 +1,4 @@
-package com.example.proximity.phone.ui.theme
+package com.example.proximitty.phone.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme

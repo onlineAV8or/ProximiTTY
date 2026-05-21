@@ -1,11 +1,11 @@
-package com.example.proximity.tv
+package com.example.proximitty.tv
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.content.ContextCompat
-import com.example.proximity.shared.NEARBY_PERMISSIONS
+import com.example.proximitty.shared.NEARBY_PERMISSIONS
 
 class TvMainActivity : ComponentActivity() {
 

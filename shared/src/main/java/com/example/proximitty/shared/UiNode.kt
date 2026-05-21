@@ -1,4 +1,4 @@
-package com.example.proximity.shared
+package com.example.proximitty.shared
 
 /**
  * Serializable UI tree node. All fields nullable so a single class works

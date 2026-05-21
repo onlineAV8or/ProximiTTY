@@ -1,4 +1,4 @@
-package com.example.proximity.tv
+package com.example.proximitty.tv
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.proximity.shared.UiNode
+import com.example.proximitty.shared.UiNode
 
 @Composable
 fun RenderUi(node: UiNode, modifier: Modifier = Modifier) {

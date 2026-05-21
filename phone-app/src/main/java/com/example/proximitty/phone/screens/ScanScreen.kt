@@ -1,4 +1,4 @@
-package com.example.proximity.phone.screens
+package com.example.proximitty.phone.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.example.proximity.phone.ConnectionState
-import com.example.proximity.phone.FoundEndpoint
+import com.example.proximitty.phone.ConnectionState
+import com.example.proximitty.phone.FoundEndpoint
 
 @Composable
 fun ScanScreen(

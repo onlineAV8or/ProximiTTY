@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.proximity.shared"
+    namespace = "com.example.proximitty.shared"
     compileSdk = 35
 
     defaultConfig {

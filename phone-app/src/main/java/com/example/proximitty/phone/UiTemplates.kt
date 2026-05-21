@@ -1,6 +1,6 @@
-package com.example.proximity.phone
+package com.example.proximitty.phone
 
-import com.example.proximity.shared.UiNode
+import com.example.proximitty.shared.UiNode
 
 data class UiTemplate(val name: String, val node: UiNode, val json: String)
 

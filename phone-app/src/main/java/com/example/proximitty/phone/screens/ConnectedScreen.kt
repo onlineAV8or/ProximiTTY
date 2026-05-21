@@ -1,4 +1,4 @@
-package com.example.proximity.phone.screens
+package com.example.proximitty.phone.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,8 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.proximity.phone.ConnectionState
-import com.example.proximity.phone.UiTemplates
+import com.example.proximitty.phone.ConnectionState
+import com.example.proximitty.phone.UiTemplates
 
 @Composable
 fun ConnectedScreen(
@@ -30,6 +31,7 @@ fun ConnectedScreen(
     onSendTemplate: (Int) -> Unit,
     onSendCustomJson: (String) -> String?,
     onClearTvUi: () -> Unit,
+    onPickPhoto: () -> Unit,
 ) {
     var customJson by remember { mutableStateOf(UiTemplates.ALL.first().json) }
     var sendError by remember { mutableStateOf<String?>(null) }
@@ -122,6 +124,29 @@ fun ConnectedScreen(
                     shape = RoundedCornerShape(12.dp),
                 ) { Text("Ping") }
             }
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        // ── Photo from gallery ──
+        SectionLabel("Send a photo to the TV")
+
+        Spacer(Modifier.height(8.dp))
+
+        Button(
+            onClick = onPickPhoto,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            shape = RoundedCornerShape(14.dp),
+        ) {
+            Icon(
+                imageVector = Icons.Default.Image,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+            )
+            Spacer(Modifier.width(10.dp))
+            Text("Pick photo from gallery", style = MaterialTheme.typography.labelLarge)
         }
 
         Spacer(Modifier.height(24.dp))

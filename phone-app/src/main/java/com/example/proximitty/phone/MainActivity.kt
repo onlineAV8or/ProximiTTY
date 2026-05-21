@@ -1,4 +1,4 @@
-package com.example.proximity.phone
+package com.example.proximitty.phone
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,10 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.proximity.phone.screens.ConnectedScreen
-import com.example.proximity.phone.screens.ScanScreen
-import com.example.proximity.phone.ui.theme.ProximityTheme
-import com.example.proximity.shared.NEARBY_PERMISSIONS
+import com.example.proximitty.phone.screens.ConnectedScreen
+import com.example.proximitty.phone.screens.ScanScreen
+import com.example.proximitty.phone.ui.theme.ProximityTheme
+import com.example.proximitty.shared.NEARBY_PERMISSIONS
 
 class MainActivity : ComponentActivity() {
 
@@ -30,6 +30,12 @@ class MainActivity : ComponentActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val hideRunnable = Runnable { hideNavBar() }
     private lateinit var insetsController: WindowInsetsControllerCompat
+
+    private val photoPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let { vm.sendImage(this, it) }
+    }
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -72,6 +78,13 @@ class MainActivity : ComponentActivity() {
                         },
                         onSendCustomJson = { json -> vm.sendUiJson(json) },
                         onClearTvUi = { vm.clearTvUi() },
+                        onPickPhoto = {
+                            photoPickerLauncher.launch(
+                                androidx.activity.result.PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
+                        },
                     )
                     else -> ScanScreen(
                         endpoints = endpoints,

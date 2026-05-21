@@ -1,4 +1,4 @@
-package com.example.proximity.shared
+package com.example.proximitty.shared
 
 import android.Manifest
 import android.os.Build
